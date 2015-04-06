@@ -58,6 +58,7 @@ int menu(){
 }
 
 void preencheLista(reg *lst){
+    reg* lista = lst;
     // função de teste
     int op = 1, val;
     while(op != 0){
@@ -66,6 +67,10 @@ void preencheLista(reg *lst){
         reg* novo = (reg*) malloc(sizeof(reg*));
         novo->prox = NULL;
         novo->val = val;
+        // encontrar o último da lista e encadear
+        while(lista->prox != NULL)
+            lista = lista->prox;
+        lista->prox = novo;
         printf("Quer inserir mais um elemento? (0-N) (1-S)\n");
         scanf("%i", &op);
     }
@@ -104,7 +109,7 @@ void mostrar(reg *lst){
     // navegar por toda a lista imprimindo
     lst = lst->prox;
     while (lst != NULL) {
-        printf("valor: %i", lst->val);
+        printf("valor: %i\n", lst->val);
         lst = lst->prox;
     }
 }
