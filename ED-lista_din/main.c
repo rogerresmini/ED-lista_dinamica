@@ -13,7 +13,6 @@ void inserir(reg *);
 void remover(reg *);
 void mostrar(reg *);
 void removerTudo(reg *);
-void preencheLista(reg*);
 
 int main(){
     reg lista;
@@ -23,10 +22,6 @@ int main(){
     do{
         op = menu();
         switch (op) {
-        case 0:
-			// inserir vários elementos por chamada
-			preencheLista(ptrlista);
-            break;
         case 1:
 			// inserir um elemento por chamada (PILHA)
 			inserir(&lista);
@@ -39,6 +34,7 @@ int main(){
 			mostrar(&lista);
             break;
         case 4:
+			removerTudo(&lista);
             break;
         default:
             printf("Opcao invalida! \nEscolha outra.");
@@ -57,28 +53,8 @@ int menu(){
     printf("4...........SAIR\n");
     printf("Escolha uma opcao: ");
     scanf("%d", &op);
-//	printf("\n");
+	printf("\n");
     return(op);
-}
-
-void preencheLista(reg *lst){
-    reg* lista = lst;
-    // função de teste
-    int op = 1, val;
-    while(op != 0){
-        printf("Informe o valor: ");
-        scanf("%i", &val);
-        reg* novo = (reg*) malloc(sizeof(reg*));
-        novo->prox = NULL;
-        novo->val = val;
-        // encontrar o último da lista e encadear
-        while(lista->prox != NULL)
-            lista = lista->prox;
-        lista->prox = novo;
-        printf("Quer inserir mais um elemento? (0-N) (1-S)\n");
-        scanf("%i", &op);
-    }
-    // faltam testes
 }
 
 void inserir(reg *cab){
@@ -123,18 +99,6 @@ void remover(reg *cab){
 		// liberar memória (apagar) da posição topo
 		free(pAtual);
 	}
-
-    // penúltima pos.
-    reg* anterior = lst;
-    reg* topo = anterior->prox;
-    // navegar até fim da lista
-    // topo será a última pos.
-    // anterior será a pos. anterior
-
-    // situações:
-    // 1. lista vazia
-    // 2. lista com apenas 1 elemento
-    // 3. lista com vários elementos
 }
 
 void mostrar(reg *cab){
@@ -146,6 +110,10 @@ void mostrar(reg *cab){
 		// andar na lista
         lst = lst->prox;
     }
+}
+
+void removerTudo(reg *cab){
+	// remover todos os elementos da lista
 }
 
 
