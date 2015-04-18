@@ -18,22 +18,25 @@ void preencheLista(reg*);
 int main(){
     reg lista;
     lista.prox = NULL;
-    reg *ptrlista = &lista;
+	reg *ptrlista = &lista;
     int op;
     do{
         op = menu();
         switch (op) {
         case 0:
-            preencheLista(&lista);
+			// inserir vários elementos por chamada
+			preencheLista(ptrlista);
             break;
         case 1:
-            inserir(&lista);
+			// inserir um elemento por chamada (PILHA)
+			inserir(&lista);
             break;
         case 2:
-            remover(&lista);
+			// remover um elemento (PILHA)
+			remover(&lista);
             break;
         case 3:
-            mostrar(&lista);
+			mostrar(&lista);
             break;
         case 4:
             break;
@@ -42,6 +45,7 @@ int main(){
             break;
         }
     }while(op < 4);
+	return 0;
 }
 
 int menu(){
@@ -77,19 +81,48 @@ void preencheLista(reg *lst){
     // faltam testes
 }
 
-void inserir(reg *lst){
+void inserir(reg *cab){
+	reg *pAtual;
+	pAtual = cab;
     // receber o valor a ser inserido
+	int val;
+	printf("Informe um valor: ");
+	scanf("%d", &val);
     // alocar memória
-    // inserir o valor na nova posição alocada
+	reg *nova = (reg*) malloc(sizeof(reg*));
+	// inserir o valor na nova posição alocada
+	nova->val = val;
+	nova->prox = NULL;
     // navegar até a última posição (topo) da pilha
+	while(pAtual->prox != NULL){
+		// anda na lista
+		pAtual = pAtual->prox;
+	}
     // ligar (encadear) a última posição da lista com a posição nova
+	pAtual->prox = nova;
 }
 
-void remover(reg *lst){
+void remover(reg *cab){
+	reg *pAtual = cab;
+	reg *pAnt = NULL;
     // verificar se existem elementos na pilha
-    // navegar até o topo da pilha
-    // apontar a penúltima posição para NULL
-    // liberar memória (apagar) da posição topo
+	if(pAtual->prox == NULL)
+		printf("Lista vazia!");
+	else{
+		// navegar até o topo da pilha
+		while(pAtual->prox->prox != NULL){
+			// andar na lista
+			pAtual = pAtual->prox;
+		}
+		// pAnt aponta para penúltima pos.
+		pAnt = pAtual;
+		// pAtual aponta para última pos.
+		pAtual = pAtual->prox;
+		// apontar a penúltima posição para NULL
+		pAnt->prox = NULL;
+		// liberar memória (apagar) da posição topo
+		free(pAtual);
+	}
 
     // penúltima pos.
     reg* anterior = lst;
@@ -104,12 +137,13 @@ void remover(reg *lst){
     // 3. lista com vários elementos
 }
 
-void mostrar(reg *lst){
+void mostrar(reg *cab){
     // verificar se a lista está vazia
     // navegar por toda a lista imprimindo
-    lst = lst->prox;
+	reg *lst = cab->prox;
     while (lst != NULL) {
         printf("valor: %i\n", lst->val);
+		// andar na lista
         lst = lst->prox;
     }
 }
